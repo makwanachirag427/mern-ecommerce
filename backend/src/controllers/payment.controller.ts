@@ -5,6 +5,8 @@ import { stripe } from "../config/stripe";
 import { ENVVARS } from "../utils/envVars";
 import Order from "../models/order.model";
 
+const FRONTEND_URL = ENVVARS.NODE_ENV === "developemnt" ? ENVVARS.NODE_ENV : "https://mern-ecommerce-k0ia.onrender.com";
+
 export const createCheckoutSession = async (
   req: RequestType,
   res: Response
@@ -54,8 +56,8 @@ export const createCheckoutSession = async (
       payment_method_types: ["card"],
       line_items: lineItems,
       mode: "payment",
-      success_url: `${ENVVARS.CLIENT_URL}/purchase-success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${ENVVARS.CLIENT_URL}/purchase-cancel`,
+      success_url: `${FRONTEND_URL}/purchase-success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${FRONTEND_URL}/purchase-cancel`,
       discounts: coupon
         ? [
             {
